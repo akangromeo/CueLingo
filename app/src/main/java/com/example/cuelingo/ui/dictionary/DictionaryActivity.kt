@@ -1,4 +1,4 @@
-package com.example.cuelingo.ui.main
+package com.example.cuelingo.ui.dictionary
 
 import android.content.Intent
 import android.os.Build
@@ -7,28 +7,25 @@ import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.example.cuelingo.R
-import com.example.cuelingo.databinding.ActivityMainBinding
-import com.example.cuelingo.ui.dictionary.DictionaryActivity
+import com.example.cuelingo.databinding.ActivityDictionaryBinding
+import com.example.cuelingo.ui.main.MainActivity
 import com.example.cuelingo.ui.profile.ProfileActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity() {
+class DictionaryActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityDictionaryBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityDictionaryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
-        binding.bottomNavigation.selectedItemId = R.id.home
-
-        setupView()
-        setupAction()
+        binding.bottomNavigation.selectedItemId = R.id.dictionary
 
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigation
+
+        setupView()
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
 
@@ -65,9 +62,5 @@ class MainActivity : AppCompatActivity() {
             )
         }
         supportActionBar?.hide()
-    }
-
-    private fun setupAction() {
-
     }
 }
