@@ -20,11 +20,7 @@
         <activity
             android:name=".ui.camera.CameraActivity"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.profile.ProfileActivity"
@@ -35,6 +31,11 @@
         <activity
             android:name=".ui.splashScreen.SplashScreen"
             android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity

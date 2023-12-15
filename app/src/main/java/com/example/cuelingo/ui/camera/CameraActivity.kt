@@ -9,7 +9,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.RectF
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.CameraCaptureSession
 import android.hardware.camera2.CameraDevice
@@ -20,16 +19,23 @@ import android.os.HandlerThread
 import android.util.Log
 import android.view.Surface
 import android.view.TextureView
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.cuelingo.R
 import com.example.cuelingo.ml.ModelSignLanguage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.ops.ResizeOp
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.nio.ByteBuffer
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class CameraActivity : AppCompatActivity() {
 
@@ -48,6 +54,7 @@ class CameraActivity : AppCompatActivity() {
     lateinit var cameraManager: CameraManager
     lateinit var textureView: TextureView
     lateinit var model: ModelSignLanguage
+    lateinit var cameraExecutor: ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,14 +62,16 @@ class CameraActivity : AppCompatActivity() {
         get_permission()
 
 //        labels = FileUtil.loadLabels(this, "labels.txt")
+        labels = listOf("text")
         imageProcessor =
-            ImageProcessor.Builder().add(ResizeOp(300, 300, ResizeOp.ResizeMethod.BILINEAR)).build()
+            ImageProcessor.Builder().add(ResizeOp(416, 416, ResizeOp.ResizeMethod.BILINEAR)).build()
         model = ModelSignLanguage.newInstance(this)
         val handlerThread = HandlerThread("videoThread")
         handlerThread.start()
         handler = Handler(handlerThread.looper)
 
         imageView = findViewById(R.id.imageView)
+        imageView.visibility = View.GONE
 
         textureView = findViewById(R.id.textureView)
         textureView.surfaceTextureListener = object : TextureView.SurfaceTextureListener {
@@ -78,73 +87,87 @@ class CameraActivity : AppCompatActivity() {
             }
 
             override fun onSurfaceTextureUpdated(p0: SurfaceTexture) {
-
-                val bitmap = textureView.bitmap
-
-                val byteBuffer = ByteBuffer.allocateDirect(bitmap!!.byteCount)
-                bitmap.copyPixelsToBuffer(byteBuffer)
-                byteBuffer.rewind()
-
-                val inputFeature0 =
-                    TensorBuffer.createFixedSize(intArrayOf(1, 416, 416, 3), DataType.FLOAT32)
-                if (byteBuffer.capacity() == inputFeature0.flatSize) {
-
-                    inputFeature0.loadBuffer(byteBuffer)
-                } else {
-                    // Handle the size mismatch, log an error, or take appropriate action
-                    Log.e("TensorFlow", "Size bytebuffer ${byteBuffer}")
-                    Log.e("TensorFlow", "Size Tensorbuffer ${inputFeature0.flatSize}")
+                GlobalScope.launch(Dispatchers.IO) {
+                    processImage()
                 }
-
-
-                val outputs = model.process(inputFeature0)
-                val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
-
-                val canvas = Canvas(bitmap)
-
-                val h = bitmap.height
-                val w = bitmap.width
-                paint.textSize = h / 15f
-                paint.strokeWidth = h / 85f
-
-                outputFeature0.forEachIndexed { x, fl ->
-                    val index = x * 4
-                    if (fl > 0.5) {
-                        paint.setColor(colors.get(index))
-                        paint.style = Paint.Style.STROKE
-                        canvas.drawRect(
-                            RectF(
-                                outputFeature0.get(index + 1) * w,
-                                outputFeature0.get(index) * h,
-                                outputFeature0.get(index + 3) * w,
-                                outputFeature0.get(index + 2) * h
-                            ), paint
-                        )
-                        paint.style = Paint.Style.FILL
-                        canvas.drawText(
-                            labels.get(
-                                outputFeature0.get(index).toInt()
-                            ) + " " + fl.toString(),
-                            outputFeature0.get(index + 1) * w,
-                            outputFeature0.get(index) * h,
-                            paint
-                        )
-                    }
-                }
-
-                imageView.setImageBitmap(bitmap)
-
-
             }
         }
 
         cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
+        cameraExecutor = Executors.newSingleThreadExecutor()
 
+    }
+
+    private suspend fun processImage() = withContext(Dispatchers.Main) {
+        val bitmap = textureView.bitmap
+
+        val byteBuffer = ByteBuffer.allocateDirect(bitmap!!.byteCount)
+        bitmap.copyPixelsToBuffer(byteBuffer)
+        byteBuffer.rewind()
+
+        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 416, 416, 3), DataType.FLOAT32)
+
+        if (byteBuffer.capacity() == inputFeature0.flatSize) {
+            inputFeature0.loadBuffer(byteBuffer)
+        } else {
+            Log.e("TensorFlow", "Size mismatch: Bytebuffer size ${byteBuffer.capacity()}, Tensorbuffer size ${inputFeature0.flatSize}")
+            return@withContext
+        }
+
+        val outputs = model.process(inputFeature0)
+        val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
+
+        val resultBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(resultBitmap)
+
+        val h = resultBitmap.height
+        val w = resultBitmap.width
+        paint.textSize = h / 15f
+        paint.strokeWidth = h / 85f
+
+        val confidenceThreshold = 0.5
+
+        for (index in 0 until outputFeature0.size / 5) {
+            val startIndex = index * 5
+            if (startIndex + 4 < outputFeature0.size) {
+                val confidence = outputFeature0[startIndex + 4]
+
+                Log.d("detect", "detect: $index, confidence: $confidence")
+
+                if (confidence > confidenceThreshold) {
+                    val left = outputFeature0[startIndex + 1] * w
+                    val top = outputFeature0[startIndex] * h
+                    val right = outputFeature0[startIndex + 3] * w
+                    val bottom = outputFeature0[startIndex + 2] * h
+
+                    paint.color = colors[index % colors.size]
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = 2f
+
+                    canvas.drawRect(left, top, right, bottom, paint)
+
+                    paint.style = Paint.Style.FILL
+                    paint.textSize = 20f
+                    canvas.drawText(
+                        "${labels[index]} $confidence",
+                        left,
+                        top - 10f,
+                        paint
+                    )
+                }
+            } else {
+                Log.e("detect", "Index out of bounds: $index")
+            }
+
+        }
+
+        imageView.setImageBitmap(resultBitmap)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         model.close()
+        cameraExecutor.shutdown()
     }
 
     @SuppressLint("MissingPermission")
