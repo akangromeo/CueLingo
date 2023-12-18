@@ -1,4 +1,4 @@
-![Logo]([[https://cdn.discordapp.com/attachments/1151142345857843243/1181982867144843395/Logo__Text.png?ex=65830a53&is=65709553&hm=19548eb42091eb84b3b63e9c1e66e2f1798179fbe7e721ef5158ea70a0527551&](https://github.com/akangromeo/CueLingo/blob/mobile-development/app/src/main/res/drawable/cuelingo_logo_green.png)](https://drive.google.com/file/d/1CykgT5JjOQMNKqNODgZUyfc5X-7KVq3m/view?usp=sharing))
+![Logo](https://cdn.discordapp.com/attachments/1184478625706278992/1186379127985541260/cuelingo_logo_green.png?ex=659308a9&is=658093a9&hm=9316550c61aabb63629d74dc1b5020aa4fa0c8762f221a0374a7782255e53539&)
 
 
 # Cue Lingo : Our Sign Language Translator
