@@ -39,5 +39,5 @@ ALTER TABLE `refresh_tokens`
   ADD CONSTRAINT `refresh_tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
-4. file .ev diedit seusai nama host, username, nama database dan pw nya
-5. runnya: node app.js
+5. file .ev diedit seusai nama host, username, nama database dan pw nya
+6. runnya: node app.js
