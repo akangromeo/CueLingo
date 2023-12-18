@@ -43,9 +43,8 @@ export default {
                 [name, email, hashPassword]
             );
             res.status(201).json({
-                status: 201,
+                error: false,
                 message: 'You have been successfully registered.',
-                user_id: result.insertId,
             });
         } catch (err) {
             next(err);
@@ -83,11 +82,17 @@ export default {
             if (!result.affectedRows) {
                 throw new Error('Failed to whitelist the refresh token.');
             }
-            res.json({
-                status: 200,
-                access_token,
-                refresh_token,
-            });
+            const loginResult = {
+                userId: user.id.toString(),
+                name: user.name,
+                token: access_token
+            };
+            const response = {
+                error: false,
+                message: "success",
+                loginResult: loginResult
+            };
+            res.json(response);
         } catch (err) {
             next(err);
         }

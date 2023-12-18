@@ -1,8 +1,12 @@
 import express from 'express';
 import dbConnection from './dbConnection.js';
+import bodyParser from 'body-parser'; // Import body-parser
 import routes from './routes.js';
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Middleware to parse URL-encoded bodies
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Middleware to parse JSON requests
 app.use(express.json());
