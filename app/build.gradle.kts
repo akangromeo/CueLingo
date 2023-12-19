@@ -40,6 +40,8 @@ android {
     }
 }
 
+
+
 dependencies {
 
     implementation("androidx.core:core-ktx:1.9.0")
@@ -99,5 +101,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1") //untuk lifecycleScope
     //datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    implementation ("com.google.mediapipe:tasks-vision:0.10.2")
 
 }

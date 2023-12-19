@@ -16,12 +16,14 @@
 
 package com.example.cuelingo.ui.objectdetection
 
-import android.os.Build
 import android.os.Bundle
-import android.view.WindowInsets
-import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.example.cuelingo.R
 import com.example.cuelingo.databinding.ActivityCameraBinding
+
 
 /**
  * Main entry point into our app. This app follows the single-activity pattern, and all
@@ -30,34 +32,24 @@ import com.example.cuelingo.databinding.ActivityCameraBinding
 class CameraActivity : AppCompatActivity() {
 
     private lateinit var activityCameraBinding: ActivityCameraBinding
+    private val viewModel: CameraViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityCameraBinding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(activityCameraBinding.root)
 
-        setupView()
-    }
-
-    private fun setupView() {
-        @Suppress("DEPRECATION") if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.hide(WindowInsets.Type.statusBars())
-        } else {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        val navController = navHostFragment.navController
+        activityCameraBinding.navigation.setupWithNavController(navController)
+        activityCameraBinding.navigation.setOnNavigationItemReselectedListener {
+            // ignore the reselection
         }
-        supportActionBar?.hide()
     }
 
     override fun onBackPressed() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            // Workaround for Android Q memory leak issue in IRequestFinishCallback$Stub.
-            // (https://issuetracker.google.com/issues/139738913)
-            finishAfterTransition()
-        } else {
-            super.onBackPressed()
-        }
+        super.onBackPressed()
+        finish()
     }
 }
