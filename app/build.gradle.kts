@@ -50,6 +50,9 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.3.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+
+    implementation("org.tensorflow:tensorflow-lite-metadata:0.1.0")
+//    implementation("org.tensorflow:tensorflow-lite-support:0.1.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -59,9 +62,9 @@ dependencies {
     implementation ("androidx.localbroadcastmanager:localbroadcastmanager:1.0.0")
 
     // Navigation library
-    val nav_version = "2.3.5"
-    implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
+//    val nav_version = "2.3.5"
+//    implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
+//    implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     // CameraX core library
     val camerax_version = "1.1.0-beta03"

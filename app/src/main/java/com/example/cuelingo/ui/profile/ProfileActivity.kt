@@ -2,17 +2,23 @@ package com.example.cuelingo.ui.profile
 
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.example.cuelingo.R
 import com.example.cuelingo.databinding.ActivityProfileBinding
+import com.example.cuelingo.ui.ViewModelFactory
 import com.example.cuelingo.ui.dictionary.DictionaryActivity
 import com.example.cuelingo.ui.main.MainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ProfileActivity : AppCompatActivity() {
+
+    private val viewModel by viewModels<ProfileViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
 
     private lateinit var binding: ActivityProfileBinding
 
@@ -26,6 +32,8 @@ class ProfileActivity : AppCompatActivity() {
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigation
 
         setupView()
+
+        setupAction()
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
 
@@ -63,4 +71,15 @@ class ProfileActivity : AppCompatActivity() {
         }
         supportActionBar?.hide()
     }
+
+    private fun setupAction() {
+
+       binding.btnLogout.setOnClickListener {
+           viewModel.logout()
+           startActivity(Intent(this,MainActivity::class.java) )
+       }
+
+    }
+
+
 }
