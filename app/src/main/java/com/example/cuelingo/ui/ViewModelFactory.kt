@@ -32,10 +32,6 @@ class ViewModelFactory(private val repository: UserRepository) :
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
                 ProfileViewModel(repository) as T
             }
-//
-//            modelClass.isAssignableFrom(DictionaryViewModel::class.java) -> {
-//                DictionaryViewModel(repository) as T
-//            }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
