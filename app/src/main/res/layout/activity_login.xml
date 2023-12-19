@@ -85,6 +85,7 @@
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/primary"
         android:text="@string/login"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/passEditTextLayout"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/passEditTextLayout"
