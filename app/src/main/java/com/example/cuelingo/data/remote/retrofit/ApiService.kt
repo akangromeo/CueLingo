@@ -1,9 +1,11 @@
 package com.example.cuelingo.data.remote.retrofit
 
+import com.example.cuelingo.data.remote.response.DictionaryResponse
 import com.example.cuelingo.data.remote.response.LoginResponse
 import com.example.cuelingo.data.remote.response.RegisterResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -21,4 +23,7 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String
     ): LoginResponse
+
+    @GET("first.json")
+    suspend fun getAllDictionary():DictionaryResponse
 }
