@@ -1,14 +1,15 @@
 package com.example.cuelingo.ui.login
-import com.example.cuelingo.data.result.Result
-import com.example.cuelingo.data.local.preferences.UserModel
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import com.example.cuelingo.data.local.preferences.UserModel
+import com.example.cuelingo.data.result.Result
 import com.example.cuelingo.databinding.ActivityLoginBinding
 import com.example.cuelingo.ui.ViewModelFactory
 import com.example.cuelingo.ui.main.MainActivity
@@ -52,11 +53,11 @@ class LoginActivity : AppCompatActivity() {
                 if (result != null) {
                     when (result) {
                         is Result.Loading -> {
-//                            showLoading(true)
+                            showLoading(true)
                         }
 
                         is Result.Success -> {
-//                            showLoading(false)
+                            showLoading(false)
                             val token = UserModel(
                                 result.data.loginResult!!.name.toString(),
                                 result.data.loginResult.userId.toString(),
@@ -70,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         is Result.Error -> {
-//                            showLoading(false)
+                            showLoading(false)
                             Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
                         }
 
@@ -85,5 +86,9 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

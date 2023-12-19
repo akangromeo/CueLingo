@@ -10,7 +10,7 @@
     <color name="toolbar_background">#EEEEEE</color>
     <color name="ic_launcher_background">#FFFFFF</color>
     <color name="bottom_sheet_background">#EEEEEE</color>
-    <color name="bottom_sheet_text_color">@android:color/black</color>
+    <color name="bottom_sheet_text_color">@color/black</color>
     <color name="icActive">#FFFFFFFF</color>
     <color name="icFocused">#DDFFFFFF</color>
     <color name="icPressed">#AAFFFFFF</color>

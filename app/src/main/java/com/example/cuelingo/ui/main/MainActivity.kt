@@ -5,15 +5,22 @@ import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cuelingo.R
 import com.example.cuelingo.databinding.ActivityMainBinding
+import com.example.cuelingo.ui.ViewModelFactory
 import com.example.cuelingo.ui.dictionary.DictionaryActivity
+import com.example.cuelingo.ui.login.LoginActivity
 import com.example.cuelingo.ui.objectdetection.CameraActivity
 import com.example.cuelingo.ui.profile.ProfileActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel by viewModels<MainViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
 
     private lateinit var binding: ActivityMainBinding
 
@@ -26,9 +33,22 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigation.selectedItemId = R.id.home
 
+        getSession()
         setupView()
         setupAction()
 
+
+    }
+
+    private fun getSession() {
+        viewModel.getSession().observe(this) { user ->
+            if (!user.isLogin) {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            } else {
+
+            }
+        }
 
     }
 

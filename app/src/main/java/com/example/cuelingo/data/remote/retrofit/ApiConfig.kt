@@ -24,7 +24,7 @@ class ApiConfig {
                 .addInterceptor(authInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/api/")
+                .baseUrl("https://cuelingo-services-mpd3tg6rua-et.a.run.app/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

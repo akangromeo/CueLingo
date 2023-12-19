@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cue Lingo</string>
+    <string name="app_name">CueLingo</string>
     <string name="get_in_with_your_account">Get in with your account</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -55,4 +55,5 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="logout">Logout</string>
 </resources>
