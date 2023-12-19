@@ -9,4 +9,8 @@ class DetailDictionaryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_dictionary)
     }
+
+    companion object {
+        const val ID = "id"
+    }
 }

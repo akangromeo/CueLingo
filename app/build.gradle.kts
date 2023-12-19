@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs")
+
 }
 
 android {
@@ -101,7 +102,5 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1") //untuk lifecycleScope
     //datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
-
     implementation ("com.google.mediapipe:tasks-vision:0.10.2")
-
 }
