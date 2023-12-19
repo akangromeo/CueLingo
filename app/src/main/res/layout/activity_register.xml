@@ -34,13 +34,13 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginTop="20dp"
-        android:alpha="0"
         android:hint="@string/name"
+        app:boxStrokeColor="@color/primary"
+        app:hintTextColor="@color/primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_makeYourAccount"
-        app:startIconDrawable="@drawable/ic_person"
-        tools:alpha="100">
+        app:startIconDrawable="@drawable/ic_person">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameEditText"
@@ -59,6 +59,8 @@
         android:layout_marginEnd="40dp"
         android:layout_marginTop="20dp"
         android:hint="@string/email"
+        app:boxStrokeColor="@color/primary"
+        app:hintTextColor="@color/primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEditTextLayout"
@@ -81,6 +83,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="@string/password"
+        app:boxStrokeColor="@color/primary"
+        app:hintTextColor="@color/primary"
         app:layout_constraintEnd_toEndOf="@+id/emailEditTextLayout"
         app:layout_constraintStart_toStartOf="@+id/emailEditTextLayout"
         app:layout_constraintTop_toBottomOf="@id/emailEditTextLayout"
@@ -131,5 +135,15 @@
         app:layout_constraintStart_toEndOf="@+id/tv_already_have_an_account"
         app:layout_constraintTop_toTopOf="@+id/tv_already_have_an_account"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

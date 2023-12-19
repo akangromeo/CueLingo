@@ -1,15 +1,23 @@
 package com.example.cuelingo.ui.register
-
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.cuelingo.data.result.Result
 import com.example.cuelingo.databinding.ActivityRegisterBinding
+import com.example.cuelingo.ui.ViewModelFactory
 import com.example.cuelingo.ui.login.LoginActivity
 
 class RegisterActivity : AppCompatActivity() {
+
+    private val viewModel by viewModels<RegisterViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
 
     private lateinit var binding: ActivityRegisterBinding
 
@@ -38,9 +46,38 @@ class RegisterActivity : AppCompatActivity() {
     private fun setupAction() {
 
         binding.btnRegister.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
+            val name = binding.nameEditText.text.toString()
+            val email = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+
+            viewModel.register(name, email, password).observe(this) { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        showLoading(true)
+                    }
+
+                    is Result.Success -> {
+                        showLoading(false)
+                        Toast.makeText(
+                            this,
+                            "Akun dengan $email sudah jadi nih. Yuk, login dan belajar coding.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        startActivity(Intent(this, LoginActivity::class.java))
+                    }
+
+                    is Result.Error -> {
+                        showLoading(false)
+                        Toast.makeText(this, "Sign Up Failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
 
 
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

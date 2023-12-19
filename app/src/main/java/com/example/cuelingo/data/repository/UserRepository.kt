@@ -10,6 +10,7 @@ import com.example.cuelingo.data.remote.retrofit.ApiConfig
 import com.example.cuelingo.data.remote.retrofit.ApiService
 import com.example.cuelingo.data.result.Result
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
 class UserRepository (private val userPreference: UserPreference,
@@ -63,6 +64,30 @@ class UserRepository (private val userPreference: UserPreference,
         } catch (e: Exception) {
             emit(Result.Error("Signal Problem"))
         }
+    }
+    suspend fun saveSession(user: UserModel) {
+        userPreference.saveSession(user)
+    }
+
+    fun getSession(): Flow<UserModel> {
+        return userPreference.getSession()
+    }
+
+    suspend fun logout() {
+        userPreference.logout()
+    }
+    companion object {
+        @Volatile
+        private var instance: UserRepository? = null
+        fun getInstance(
+            userPreference: UserPreference,
+            apiService: ApiService
+        ): UserRepository =
+            instance ?: synchronized(this) {
+                instance ?: UserRepository(
+                    userPreference, apiService
+                )
+            }.also { instance = it }
     }
 
 }
