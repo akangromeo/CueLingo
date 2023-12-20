@@ -7,14 +7,11 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.cuelingo.R
 import com.example.cuelingo.databinding.ActivityMainBinding
-import com.example.cuelingo.ui.ViewModelFactory
 import com.example.cuelingo.ui.dictionary.DictionaryActivity
 import com.example.cuelingo.ui.login.LoginActivity
 import com.example.cuelingo.ui.objectdetection.CameraActivity
-import com.example.cuelingo.ui.profile.ProfileActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.cuelingo.ui.viewModelFactory.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,9 +26,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
-        binding.bottomNavigation.selectedItemId = R.id.home
 
         getSession()
         setupView()
@@ -66,34 +60,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupAction() {
 
-        val bottomNavigationView: BottomNavigationView = binding.bottomNavigation
-
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-
-            when (item.itemId) {
-                R.id.home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    true
-                }
-
-                R.id.dictionary -> {
-                    startActivity(Intent(this, DictionaryActivity::class.java))
-                    true
-                }
-                R.id.profile -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
-                    finish()
-                    true
-                }
-                else -> false
-
-            }
-
-
-        }
-
         binding.ibCamera.setOnClickListener{
             startActivity(Intent(this, CameraActivity::class.java))
+        }
+
+        binding.ibDictionary.setOnClickListener {
+            startActivity(Intent(this, DictionaryActivity::class.java))
         }
 
     }

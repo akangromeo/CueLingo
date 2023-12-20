@@ -24,6 +24,11 @@ interface ApiService {
         @Field("password") password: String
     ): LoginResponse
 
-    @GET("first.json")
+    @GET("dictionary.json")
     suspend fun getAllDictionary():DictionaryResponse
+
+//    @GET("stories/{id}")
+//    suspend fun getStoryDetail(
+//        @Path("id") id: String
+//    ): DetailStoryResponse
 }

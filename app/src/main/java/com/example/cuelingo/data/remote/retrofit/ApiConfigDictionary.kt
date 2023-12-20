@@ -22,7 +22,7 @@ class ApiConfigDictionary {
                 .addInterceptor(authInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://tuhanbaik-default-rtdb.asia-southeast1.firebasedatabase.app/dictionary/detail/5W+1H/")
+                .baseUrl("https://tuhanbaik-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

@@ -14,8 +14,7 @@
         android:src="@drawable/rectangle_curved_bottom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/primary">
-    </ImageView>
+        app:tint="@color/primary"></ImageView>
 
     <ImageView
         android:id="@+id/iv_logo"
@@ -58,31 +57,40 @@
         android:paddingBottom="100dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp">
 
             <ImageView
                 android:id="@+id/ib_camera"
                 style="@style/ThemeOverlay.Material3.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/camerabutton"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/camera_button"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_centerHorizontal="true"/>
 
+            <ImageView
+                android:id="@+id/ib_dictionary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/dictionary_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="40dp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
         <!-- Scrollable content -->
@@ -90,12 +98,11 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation_menu" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="205dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

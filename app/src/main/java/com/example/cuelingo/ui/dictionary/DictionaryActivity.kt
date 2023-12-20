@@ -10,15 +10,14 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cuelingo.R
-import com.example.cuelingo.data.remote.response.DictionaryItem
+import com.example.cuelingo.data.remote.response.ListDictionaryItem
 import com.example.cuelingo.data.result.Result
 import com.example.cuelingo.databinding.ActivityDictionaryBinding
 import com.example.cuelingo.ui.detaildictionary.DetailDictionaryActivity
 import com.example.cuelingo.ui.main.MainActivity
-import com.example.cuelingo.ui.profile.ProfileActivity
+import com.example.cuelingo.ui.viewModelFactory.ViewModelFactoryDictionary
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DictionaryActivity : AppCompatActivity() {
@@ -27,6 +26,10 @@ class DictionaryActivity : AppCompatActivity() {
         ViewModelFactoryDictionary.getInstance(this)
     }
 
+//    private val mainViewModel by viewModels<MainViewModel> {
+//        ViewModelFactory.getInstance(this)
+//    }
+
     private lateinit var binding: ActivityDictionaryBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,13 +37,8 @@ class DictionaryActivity : AppCompatActivity() {
         binding = ActivityDictionaryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        val dictionaryViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DictionaryViewModel::class.java)
-
         val layoutManager = LinearLayoutManager(this)
         binding.rvDictionary.layoutManager = layoutManager
-
-        val item = DividerItemDecoration(this, layoutManager.orientation)
-        binding.rvDictionary.addItemDecoration(item)
 
         setDictionaryData()
 
@@ -65,8 +63,8 @@ class DictionaryActivity : AppCompatActivity() {
                     true
                 }
                 R.id.profile -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
-                    finish()
+//                    mainViewModel.logout()
+                    startActivity(Intent(this,MainActivity::class.java) )
                     true
                 }
                 else -> false
@@ -90,11 +88,12 @@ class DictionaryActivity : AppCompatActivity() {
                         val dictionary = item.data
                         val dictionaryAdapter =
                             DictionaryAdapter(object : DictionaryAdapter.OnItemClickCallBack {
-                                override fun onItemClicked(data: DictionaryItem) {
+                                override fun onItemClicked(data: ListDictionaryItem) {
                                     val intent = Intent(
                                         this@DictionaryActivity, DetailDictionaryActivity::class.java
                                     )
-//                                    intent.putExtra(DetailDictionaryActivity.ID, data)
+                                    intent.putExtra(DetailDictionaryActivity.NAME, data.name)
+                                    intent.putExtra(DetailDictionaryActivity.PHOOTO, data.id)
                                     startActivity(intent)
                                 }
                             })

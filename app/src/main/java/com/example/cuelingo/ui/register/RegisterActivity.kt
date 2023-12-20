@@ -10,7 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cuelingo.data.result.Result
 import com.example.cuelingo.databinding.ActivityRegisterBinding
-import com.example.cuelingo.ui.ViewModelFactory
+import com.example.cuelingo.ui.viewModelFactory.ViewModelFactory
 import com.example.cuelingo.ui.login.LoginActivity
 
 class RegisterActivity : AppCompatActivity() {
