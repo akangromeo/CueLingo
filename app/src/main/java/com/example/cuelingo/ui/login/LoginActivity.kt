@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.cuelingo.data.local.preferences.UserModel
 import com.example.cuelingo.data.result.Result
 import com.example.cuelingo.databinding.ActivityLoginBinding
-import com.example.cuelingo.ui.ViewModelFactory
+import com.example.cuelingo.ui.viewModelFactory.ViewModelFactory
 import com.example.cuelingo.ui.main.MainActivity
 import com.example.cuelingo.ui.register.RegisterActivity
 

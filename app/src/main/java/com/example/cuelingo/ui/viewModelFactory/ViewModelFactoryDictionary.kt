@@ -1,10 +1,11 @@
-package com.example.cuelingo.ui.dictionary
+package com.example.cuelingo.ui.viewModelFactory
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.cuelingo.data.repository.DictionaryRepository
 import com.example.cuelingo.di.InjectionDictionary
+import com.example.cuelingo.ui.dictionary.DictionaryViewModel
 
 class ViewModelFactoryDictionary(private val repository: DictionaryRepository) :
     ViewModelProvider.NewInstanceFactory() {

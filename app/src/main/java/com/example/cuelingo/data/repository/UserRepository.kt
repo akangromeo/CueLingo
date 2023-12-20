@@ -14,8 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
 class UserRepository (private val userPreference: UserPreference,
-                      private val apiService: ApiService
-)
+                      private val apiService: ApiService)
 {
     fun register(
         name: String,

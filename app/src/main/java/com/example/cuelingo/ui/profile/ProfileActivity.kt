@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cuelingo.R
 import com.example.cuelingo.databinding.ActivityProfileBinding
-import com.example.cuelingo.ui.ViewModelFactory
+import com.example.cuelingo.ui.viewModelFactory.ViewModelFactory
 import com.example.cuelingo.ui.dictionary.DictionaryActivity
 import com.example.cuelingo.ui.main.MainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView

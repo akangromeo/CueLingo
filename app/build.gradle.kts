@@ -64,11 +64,6 @@ dependencies {
 
     implementation ("androidx.localbroadcastmanager:localbroadcastmanager:1.0.0")
 
-    // Navigation library
-//    val nav_version = "2.3.5"
-//    implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
-//    implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
-
     // CameraX core library
     val camerax_version = "1.1.0-beta03"
     implementation ("androidx.camera:camera-core:$camerax_version")
@@ -102,5 +97,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1") //untuk lifecycleScope
     //datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
     implementation ("com.google.mediapipe:tasks-vision:0.10.2")
+
+    //glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }

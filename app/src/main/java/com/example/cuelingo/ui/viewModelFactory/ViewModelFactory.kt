@@ -1,4 +1,4 @@
-package com.example.cuelingo.ui
+package com.example.cuelingo.ui.viewModelFactory
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

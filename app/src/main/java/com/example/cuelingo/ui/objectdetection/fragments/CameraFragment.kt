@@ -45,13 +45,11 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
     private var camera: Camera? = null
     private var cameraProvider: ProcessCameraProvider? = null
 
-    /** Blocking ML operations are performed using this executor */
     private lateinit var backgroundExecutor: ExecutorService
 
     override fun onResume() {
         super.onResume()
-        // Make sure that all permissions are still present, since the
-        // user could have removed them while the app was in paused state.
+
         if (!PermissionsFragment.hasPermissions(requireContext())) {
             Navigation.findNavController(
                 requireActivity(),
@@ -70,13 +68,13 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
     override fun onPause() {
         super.onPause()
 
-        // save ObjectDetector settings
+
         if(this::objectDetectorHelper.isInitialized) {
             viewModel.setModel(objectDetectorHelper.currentModel)
             viewModel.setDelegate(objectDetectorHelper.currentDelegate)
             viewModel.setThreshold(objectDetectorHelper.threshold)
             viewModel.setMaxResults(objectDetectorHelper.maxResults)
-            // Close the object detector and release resources
+
             backgroundExecutor.execute { objectDetectorHelper.clearObjectDetector() }
         }
 
@@ -86,7 +84,6 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
         _fragmentCameraBinding = null
         super.onDestroyView()
 
-        // Shut down our background executor.
         backgroundExecutor.shutdown()
         backgroundExecutor.awaitTermination(
             Long.MAX_VALUE,
@@ -109,10 +106,8 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize our background executor
         backgroundExecutor = Executors.newSingleThreadExecutor()
 
-        // Create the ObjectDetectionHelper that will handle the inference
         backgroundExecutor.execute {
             objectDetectorHelper =
                 ObjectDetectorHelper(
@@ -125,26 +120,26 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
                     runningMode = RunningMode.LIVE_STREAM
                 )
 
-            // Wait for the views to be properly laid out
+
             fragmentCameraBinding.viewFinder.post {
-                // Set up the camera and its use cases
+
                 setUpCamera()
             }
         }
 
-        // Attach listeners to UI control widgets
+
         initBottomSheetControls()
         fragmentCameraBinding.overlay.setRunningMode(RunningMode.LIVE_STREAM)
     }
 
     private fun initBottomSheetControls() {
-        // Init bottom sheet settings
+
         fragmentCameraBinding.bottomSheetLayout.maxResultsValue.text =
             viewModel.currentMaxResults.toString()
         fragmentCameraBinding.bottomSheetLayout.thresholdValue.text =
             String.format("%.2f", viewModel.currentThreshold)
 
-        // When clicked, lower detection score threshold floor
+
         fragmentCameraBinding.bottomSheetLayout.thresholdMinus.setOnClickListener {
             if (objectDetectorHelper.threshold >= 0.1) {
                 objectDetectorHelper.threshold -= 0.1f
@@ -152,7 +147,7 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
             }
         }
 
-        // When clicked, raise detection score threshold floor
+
         fragmentCameraBinding.bottomSheetLayout.thresholdPlus.setOnClickListener {
             if (objectDetectorHelper.threshold <= 0.8) {
                 objectDetectorHelper.threshold += 0.1f
@@ -160,7 +155,7 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
             }
         }
 
-        // When clicked, reduce the number of objects that can be detected at a time
+
         fragmentCameraBinding.bottomSheetLayout.maxResultsMinus.setOnClickListener {
             if (objectDetectorHelper.maxResults > 1) {
                 objectDetectorHelper.maxResults--
@@ -168,7 +163,7 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
             }
         }
 
-        // When clicked, increase the number of objects that can be detected at a time
+
         fragmentCameraBinding.bottomSheetLayout.maxResultsPlus.setOnClickListener {
             if (objectDetectorHelper.maxResults < 5) {
                 objectDetectorHelper.maxResults++
@@ -176,8 +171,6 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
             }
         }
 
-        // When clicked, change the underlying hardware used for inference. Current options are CPU
-        // GPU, and NNAPI
         fragmentCameraBinding.bottomSheetLayout.spinnerDelegate.setSelection(
             viewModel.currentDelegate,
             false
@@ -199,11 +192,10 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
-                    /* no op */
+
                 }
             }
 
-        // When clicked, change the underlying model used for object detection
         fragmentCameraBinding.bottomSheetLayout.spinnerModel.setSelection(
             viewModel.currentModel,
             false
@@ -225,12 +217,12 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
-                    /* no op */
+
                 }
             }
     }
 
-    // Update the values displayed in the bottom sheet. Reset detector.
+
     private fun updateControlsUi() {
         fragmentCameraBinding.bottomSheetLayout.maxResultsValue.text =
             objectDetectorHelper.maxResults.toString()
@@ -245,7 +237,7 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
         fragmentCameraBinding.overlay.clear()
     }
 
-    // Initialize CameraX, and prepare to bind the camera use cases
+
     private fun setUpCamera() {
         val cameraProviderFuture =
             ProcessCameraProvider.getInstance(requireContext())
@@ -273,7 +265,7 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
         // CameraSelector - makes assumption that we're only using the back camera
         val cameraSelector =
             CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
+                .requireLensFacing(CameraSelector.LENS_FACING_FRONT).build()
 
         // Preview. Only using the 4:3 ratio because this is the closest to our models
         preview =

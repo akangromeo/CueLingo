@@ -55,7 +55,7 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <string name="logout">Logout</string>
+    <string name="logout">Logout From Your Account</string>
 
     <string name="alt_bottom_sheet_chevron">Bottom sheet expandable indicator</string>
 
@@ -78,6 +78,10 @@
     <string name="menu_gallery">Gallery</string>
     <string name="tv_gallery_placeholder">Click + to add an image or a video
         to begin running the object detection.</string>
+    <string name="okey">Okey</string>
+    <string name="_1">#1</string>
+    <string name="fun_fact">Fun Fact!</string>
+    <string name="funfact_item">Even though many deaf individuals sign with their hands, facial expressions still play a fundamental role in interpersonal communication.</string>
 
     <string-array name="delegate_spinner_titles">
         <item>CPU</item>
