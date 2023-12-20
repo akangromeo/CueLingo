@@ -105,6 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
         android:text="@string/register"
         app:layout_constraintEnd_toEndOf="@+id/passEditTextLayout"
         app:layout_constraintStart_toStartOf="@+id/passEditTextLayout"

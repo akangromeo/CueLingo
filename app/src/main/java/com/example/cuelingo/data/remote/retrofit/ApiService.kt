@@ -27,8 +27,4 @@ interface ApiService {
     @GET("dictionary.json")
     suspend fun getAllDictionary():DictionaryResponse
 
-//    @GET("stories/{id}")
-//    suspend fun getStoryDetail(
-//        @Path("id") id: String
-//    ): DetailStoryResponse
 }

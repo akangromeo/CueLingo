@@ -11,14 +11,12 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.cuelingo.R
 import com.example.cuelingo.data.remote.response.ListDictionaryItem
 import com.example.cuelingo.data.result.Result
 import com.example.cuelingo.databinding.ActivityDictionaryBinding
 import com.example.cuelingo.ui.detaildictionary.DetailDictionaryActivity
 import com.example.cuelingo.ui.main.MainActivity
 import com.example.cuelingo.ui.viewModelFactory.ViewModelFactoryDictionary
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DictionaryActivity : AppCompatActivity() {
 
@@ -42,37 +40,9 @@ class DictionaryActivity : AppCompatActivity() {
 
         setDictionaryData()
 
-        binding.bottomNavigation.selectedItemId = R.id.dictionary
-
-        val bottomNavigationView: BottomNavigationView = binding.bottomNavigation
-
         setupView()
 
-
-
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-
-            when (item.itemId) {
-                R.id.home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    true
-                }
-
-                R.id.dictionary -> {
-                    startActivity(Intent(this, DictionaryActivity::class.java))
-                    true
-                }
-                R.id.profile -> {
-//                    mainViewModel.logout()
-                    startActivity(Intent(this,MainActivity::class.java) )
-                    true
-                }
-                else -> false
-
-            }
-        }
-
-
+        setupAction()
 
     }
 
@@ -123,6 +93,12 @@ class DictionaryActivity : AppCompatActivity() {
             )
         }
         supportActionBar?.hide()
+    }
+
+    private fun setupAction(){
+        binding.ivMain.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {

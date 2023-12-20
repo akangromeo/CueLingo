@@ -1,9 +1,12 @@
 package com.example.cuelingo.ui.detaildictionary
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.cuelingo.databinding.ActivityDetailDictionaryBinding
+import com.example.cuelingo.ui.dictionary.DictionaryActivity
+import com.example.cuelingo.ui.objectdetection.CameraActivity
 
 class DetailDictionaryActivity : AppCompatActivity() {
 
@@ -17,6 +20,7 @@ class DetailDictionaryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setData()
+        setupAction()
 
 
     }
@@ -34,6 +38,18 @@ class DetailDictionaryActivity : AppCompatActivity() {
 
                 )
             tvDictionaryName.text = name
+        }
+
+    }
+
+    private fun setupAction(){
+
+        binding.ibTryNow.setOnClickListener {
+            startActivity(Intent(this, CameraActivity::class.java))
+        }
+
+        binding.ibFindAnother.setOnClickListener {
+            startActivity(Intent(this, DictionaryActivity::class.java))
         }
 
     }

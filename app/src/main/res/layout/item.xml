@@ -32,7 +32,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/dictionary"
                 android:fontFamily="@font/lexend_mega_regular"
-                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_dictionary"
                 app:layout_constraintEnd_toEndOf="@+id/iv_dictionary"
                 app:layout_constraintStart_toStartOf="@+id/iv_dictionary"

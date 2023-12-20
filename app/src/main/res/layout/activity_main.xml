@@ -14,7 +14,7 @@
         android:src="@drawable/rectangle_curved_bottom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/primary"></ImageView>
+        app:tint="@color/primary"/>
 
     <ImageView
         android:id="@+id/iv_logo"
@@ -49,60 +49,118 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_intro1" />
 
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/Linear"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingBottom="100dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="30dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/header">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal"
+        <ImageView
+            android:id="@+id/ib_camera"
+            style="@style/ThemeOverlay.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp">
+            android:src="@drawable/camera_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/ib_camera"
-                style="@style/ThemeOverlay.Material3.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/camera_button"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_centerHorizontal="true"/>
+        <ImageView
+            android:id="@+id/ib_dictionary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="40dp"
+            android:src="@drawable/dictionary_button" />
 
-            <ImageView
-                android:id="@+id/ib_dictionary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/dictionary_button"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="40dp" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_logout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@color/primary"
+        android:text="@string/logout"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/secondary"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/btn_logout"
+        app:layout_constraintTop_toBottomOf="@+id/Linear"
+        app:layout_constraintVertical_bias="0.078"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/lexend_mega_semibold"
+            android:text="Most Sign Language User Country"
+            android:textSize="10dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_rank_word"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_main"
+            tools:listitem="@layout/leaderboard_item" />
 
 
-        <!-- Scrollable content -->
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-    </androidx.core.widget.NestedScrollView>
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+    <ImageView
+        android:id="@+id/bg_funfact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="205dp" />
+        android:src="@drawable/bg_funfact"
+        app:layout_constraintBottom_toTopOf="@+id/btn_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/fun_fact"
+        android:fontFamily="@font/lexend_mega_semibold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/bg_funfact"
+        app:layout_constraintTop_toTopOf="@+id/bg_funfact" />
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="@string/funfact_item"
+        android:fontFamily="@font/lexend_mega_regular"
+        android:textSize="10dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/bg_funfact"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="@+id/bg_funfact"
+        app:layout_constraintTop_toTopOf="@+id/bg_funfact" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
