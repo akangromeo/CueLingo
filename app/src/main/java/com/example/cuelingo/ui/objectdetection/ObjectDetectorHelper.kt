@@ -103,7 +103,7 @@ class ObjectDetectorHelper(
 
         try {
             val optionsBuilder = ObjectDetector.ObjectDetectorOptions.builder()
-                .setBaseOptions(baseOptionsBuilder.setModelAssetPath("dogs.tflite").build())
+                .setBaseOptions(baseOptionsBuilder.setModelAssetPath("cuelingo.tflite").build())
                 .setScoreThreshold(threshold).setRunningMode(runningMode)
                 .setMaxResults(maxResults)
 
@@ -140,14 +140,11 @@ class ObjectDetectorHelper(
         }
     }
 
-    // Return running status of recognizer helper
+
     fun isClosed(): Boolean {
         return objectDetector == null
     }
 
-    // Accepts the URI for a video file loaded from the user's gallery and attempts to run
-    // object detection inference on the video. This process will evaluate every frame in
-    // the video and attach the results to a bundle that will be returned.
     fun detectVideoFile(
         videoUri: Uri, inferenceIntervalMs: Long
     ): ResultBundle? {
@@ -160,30 +157,23 @@ class ObjectDetectorHelper(
 
         if (objectDetector == null) return null
 
-        // Inference time is the difference between the system time at the start and finish of the
-        // process
+
         val startTime = SystemClock.uptimeMillis()
 
         var didErrorOccurred = false
 
-        // Load frames from the video and run the object detection model.
         val retriever = MediaMetadataRetriever()
         retriever.setDataSource(context, videoUri)
         val videoLengthMs =
             retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
                 ?.toLong()
 
-        // Note: We need to read width/height from frame instead of getting the width/height
-        // of the video directly because MediaRetriever returns frames that are smaller than the
-        // actual dimension of the video file.
         val firstFrame = retriever.getFrameAtTime(0)
         val width = firstFrame?.width
         val height = firstFrame?.height
 
-        // If the video is invalid, returns a null detection result
         if ((videoLengthMs == null) || (width == null) || (height == null)) return null
 
-        // Next, we'll get one frame every frameInterval ms, then run detection on these frames.
         val resultList = mutableListOf<ObjectDetectorResult>()
         val numberOfFrameToRead = videoLengthMs.div(inferenceIntervalMs)
 
@@ -191,18 +181,16 @@ class ObjectDetectorHelper(
             val timestampMs = i * inferenceIntervalMs // ms
 
             retriever.getFrameAtTime(
-                timestampMs * 1000, // convert from ms to micro-s
+                timestampMs * 1000,
                 MediaMetadataRetriever.OPTION_CLOSEST
             )?.let { frame ->
-                // Convert the video frame to ARGB_8888 which is required by the MediaPipe
+
                 val argb8888Frame =
                     if (frame.config == Bitmap.Config.ARGB_8888) frame
                     else frame.copy(Bitmap.Config.ARGB_8888, false)
 
-                // Convert the input Bitmap object to an MPImage object to run inference
                 val mpImage = BitmapImageBuilder(argb8888Frame).build()
 
-                // Run object detection using MediaPipe Object Detector API
                 objectDetector?.detectForVideo(mpImage, timestampMs)
                     ?.let { detectionResult ->
                         resultList.add(detectionResult)
@@ -232,8 +220,6 @@ class ObjectDetectorHelper(
         }
     }
 
-    // Runs object detection on live streaming cameras frame-by-frame and returns the results
-    // asynchronously to the caller.
     fun detectLivestreamFrame(imageProxy: ImageProxy) {
 
         if (runningMode != RunningMode.LIVE_STREAM) {
@@ -244,14 +230,14 @@ class ObjectDetectorHelper(
 
         val frameTime = SystemClock.uptimeMillis()
 
-        // Copy out RGB bits from the frame to a bitmap buffer
+
         val bitmapBuffer = Bitmap.createBitmap(
             imageProxy.width, imageProxy.height, Bitmap.Config.ARGB_8888
         )
         imageProxy.use { bitmapBuffer.copyPixelsFromBuffer(imageProxy.planes[0].buffer) }
         imageProxy.close()
 
-        // If the input image rotation is change, stop all detector
+
         if (imageProxy.imageInfo.rotationDegrees != imageRotation) {
             imageRotation = imageProxy.imageInfo.rotationDegrees
             clearObjectDetector()
@@ -259,21 +245,18 @@ class ObjectDetectorHelper(
             return
         }
 
-        // Convert the input Bitmap object to an MPImage object to run inference
+
         val mpImage = BitmapImageBuilder(bitmapBuffer).build()
 
         detectAsync(mpImage, frameTime)
     }
 
-    // Run object detection using MediaPipe Object Detector API
     @VisibleForTesting
     fun detectAsync(mpImage: MPImage, frameTime: Long) {
-        // As we're using running mode LIVE_STREAM, the detection result will be returned in
-        // returnLivestreamResult function
+
         objectDetector?.detectAsync(mpImage, imageProcessingOptions, frameTime)
     }
 
-    // Return the detection result to this ObjectDetectorHelper's caller
     private fun returnLivestreamResult(
         result: ObjectDetectorResult, input: MPImage
     ) {
@@ -291,15 +274,12 @@ class ObjectDetectorHelper(
         )
     }
 
-    // Return errors thrown during detection to this ObjectDetectorHelper's caller
     private fun returnLivestreamError(error: RuntimeException) {
         objectDetectorListener?.onError(
             error.message ?: "An unknown error has occurred"
         )
     }
 
-    // Accepted a Bitmap and runs object detection inference on it to return results back
-    // to the caller
     fun detectImage(image: Bitmap): ResultBundle? {
 
         if (runningMode != RunningMode.IMAGE) {
@@ -310,14 +290,10 @@ class ObjectDetectorHelper(
 
         if (objectDetector == null) return null
 
-        // Inference time is the difference between the system time at the start and finish of the
-        // process
         val startTime = SystemClock.uptimeMillis()
 
-        // Convert the input Bitmap object to an MPImage object to run inference
         val mpImage = BitmapImageBuilder(image).build()
 
-        // Run object detection using MediaPipe Object Detector API
         objectDetector?.detect(mpImage)?.also { detectionResult ->
             val inferenceTimeMs = SystemClock.uptimeMillis() - startTime
             return ResultBundle(
@@ -328,13 +304,9 @@ class ObjectDetectorHelper(
             )
         }
 
-        // If objectDetector?.detect() returns null, this is likely an error. Returning null
-        // to indicate this.
         return null
     }
 
-    // Wraps results from inference, the time it takes for inference to be performed, and
-    // the input image and height for properly scaling UI to return back to callers
     data class ResultBundle(
         val results: List<ObjectDetectorResult>,
         val inferenceTime: Long,
@@ -356,7 +328,7 @@ class ObjectDetectorHelper(
         const val TAG = "ObjectDetectorHelper"
     }
 
-    // Used to pass results or errors back to the calling class
+
     interface DetectorListener {
         fun onError(error: String, errorCode: Int = OTHER_ERROR)
         fun onResults(resultBundle: ResultBundle)

@@ -1,23 +1,12 @@
-/*
- * Copyright 2022 The TensorFlow Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.cuelingo.ui.objectdetection
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -84,12 +73,8 @@ class OverlayView(context: Context?, attrs: AttributeSet?) :
             val matrix = Matrix()
             matrix.postTranslate(-outputWidth / 2f, -outputHeight / 2f)
 
-            // Rotate box.
             matrix.postRotate(outputRotate.toFloat())
 
-            // If the outputRotate is 90 or 270 degrees, the translation is
-            // applied after the rotation. This is because a 90 or 270 degree rotation
-            // flips the image vertically or horizontally, respectively.
             if (outputRotate == 90 || outputRotate == 270) {
                 matrix.postTranslate(outputHeight / 2f, outputWidth / 2f)
             } else {
@@ -104,19 +89,16 @@ class OverlayView(context: Context?, attrs: AttributeSet?) :
             val left = floats.left * scaleFactor
             val right = floats.right * scaleFactor
 
-            // Draw bounding box around detected objects
             val drawableRect = RectF(left, top, right, bottom)
             canvas.drawRect(drawableRect, boxPaint)
 
-            // Create text to display alongside detected objects
             val category = results?.detections()!![index].categories()[0]
             val drawableText =
                 category.categoryName() + " " + String.format(
-                    "%.2f",
-                    category.score()
-                )
+                    "%.0f",
+                    (category.score() * 100)
+                ) + "%"
 
-            // Draw rect behind display text
             textBackgroundPaint.getTextBounds(
                 drawableText,
                 0,
@@ -133,7 +115,6 @@ class OverlayView(context: Context?, attrs: AttributeSet?) :
                 textBackgroundPaint
             )
 
-            // Draw text for detected object
             canvas.drawText(
                 drawableText,
                 left,
@@ -154,20 +135,12 @@ class OverlayView(context: Context?, attrs: AttributeSet?) :
         this.outputHeight = outputHeight
         this.outputRotate = imageRotation
 
-        // Calculates the new width and height of an image after it has been rotated.
-        // If `imageRotation` is 0 or 180, the new width and height are the same
-        // as the original width and height.
-        // If `imageRotation` is 90 or 270, the new width and height are swapped.
         val rotatedWidthHeight = when (imageRotation) {
             0, 180 -> Pair(outputWidth, outputHeight)
             90, 270 -> Pair(outputHeight, outputWidth)
             else -> return
         }
 
-        // Images, videos are displayed in FIT_START mode.
-        // Camera live streams is displayed in FILL_START mode. So we need to scale
-        // up the bounding box to match with the size that the images/videos/live streams being
-        // displayed.
         scaleFactor = when (runningMode) {
             RunningMode.IMAGE,
             RunningMode.VIDEO -> {

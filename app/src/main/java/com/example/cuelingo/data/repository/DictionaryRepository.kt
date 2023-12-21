@@ -23,7 +23,6 @@ class DictionaryRepository(private val apiService: ApiService) {
                     it.id,
                     it.name,
                     it.photoUrl,
-
                 )
             }
             if (dictionaryResponse.error != true) {

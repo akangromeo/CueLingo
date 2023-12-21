@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     ~ Copyright 2022 The TensorFlow Authors. All Rights Reserved.
     ~
     ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -59,14 +58,13 @@
 
             <androidx.core.widget.ContentLoadingProgressBar
                 android:id="@+id/progress"
+                style="?android:attr/progressBarStyle"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerInParent="true"
-                android:visibility="gone"
                 android:indeterminate="true"
                 android:theme="@style/AppThemeProgressStyle"
-                style="?android:attr/progressBarStyle"
-                />
+                android:visibility="gone" />
 
         </RelativeLayout>
 

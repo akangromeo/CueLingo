@@ -30,7 +30,8 @@ class ViewModelFactoryDictionary(private val repository: DictionaryRepository) :
         fun getInstance(context: Context): ViewModelFactoryDictionary {
             if (INSTANCE == null) {
                 synchronized(ViewModelFactoryDictionary::class.java) {
-                    INSTANCE = ViewModelFactoryDictionary(InjectionDictionary.provideRepository(context))
+                    INSTANCE =
+                        ViewModelFactoryDictionary(InjectionDictionary.provideRepository(context))
                 }
             }
             return INSTANCE as ViewModelFactoryDictionary

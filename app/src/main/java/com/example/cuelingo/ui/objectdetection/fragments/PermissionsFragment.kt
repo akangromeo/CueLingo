@@ -1,19 +1,3 @@
-/*
- * Copyright 2022 The TensorFlow Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.cuelingo.ui.objectdetection.fragments
 
 import android.Manifest
@@ -30,26 +14,19 @@ import com.example.cuelingo.R
 
 private val PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.CAMERA)
 
-/**
- * The sole purpose of this fragment is to request permissions and, once granted, display the camera
- * fragment to the user.
- */
+
 class PermissionsFragment : Fragment() {
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
                 Toast.makeText(
-                    context,
-                    "Permission request granted",
-                    Toast.LENGTH_LONG
+                    context, "Permission request granted", Toast.LENGTH_LONG
                 ).show()
                 navigateToCamera()
             } else {
                 Toast.makeText(
-                    context,
-                    "Permission request denied",
-                    Toast.LENGTH_LONG
+                    context, "Permission request denied", Toast.LENGTH_LONG
                 ).show()
             }
         }
@@ -58,12 +35,11 @@ class PermissionsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         when {
             ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.CAMERA
-            ) ==
-                    PackageManager.PERMISSION_GRANTED -> {
+                requireContext(), Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED -> {
                 navigateToCamera()
             }
+
             else -> {
                 requestPermissionLauncher.launch(Manifest.permission.CAMERA)
             }
@@ -73,22 +49,17 @@ class PermissionsFragment : Fragment() {
     private fun navigateToCamera() {
         lifecycleScope.launchWhenStarted {
             Navigation.findNavController(
-                requireActivity(),
-                R.id.fragment_container
-            )
-                .navigate(PermissionsFragmentDirections.actionPermissionsToCamera())
+                requireActivity(), R.id.fragment_container
+            ).navigate(PermissionsFragmentDirections.actionPermissionsToCamera())
         }
     }
 
     companion object {
 
-        /** Convenience method used to check if all permissions required by this app are granted */
-        fun hasPermissions(context: Context) =
-            PERMISSIONS_REQUIRED.all {
-                ContextCompat.checkSelfPermission(
-                    context,
-                    it
-                ) == PackageManager.PERMISSION_GRANTED
-            }
+        fun hasPermissions(context: Context) = PERMISSIONS_REQUIRED.all {
+            ContextCompat.checkSelfPermission(
+                context, it
+            ) == PackageManager.PERMISSION_GRANTED
+        }
     }
 }
