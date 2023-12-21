@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lexend_mega_regular"
-        android:text="Developed by Para Pencinta Wanita"
+        android:text="Developed by SocialCare"
         android:textSize="10sp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
