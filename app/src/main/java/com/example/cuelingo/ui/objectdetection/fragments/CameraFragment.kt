@@ -52,10 +52,8 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
 
         if (!PermissionsFragment.hasPermissions(requireContext())) {
             Navigation.findNavController(
-                requireActivity(),
-                R.id.fragment_container
-            )
-                .navigate(CameraFragmentDirections.actionCameraToPermissions())
+                requireActivity(), R.id.fragment_container
+            ).navigate(CameraFragmentDirections.actionCameraToPermissions())
         }
 
         backgroundExecutor.execute {
@@ -69,7 +67,7 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
         super.onPause()
 
 
-        if(this::objectDetectorHelper.isInitialized) {
+        if (this::objectDetectorHelper.isInitialized) {
             viewModel.setModel(objectDetectorHelper.currentModel)
             viewModel.setDelegate(objectDetectorHelper.currentDelegate)
             viewModel.setThreshold(objectDetectorHelper.threshold)
@@ -86,18 +84,14 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
 
         backgroundExecutor.shutdown()
         backgroundExecutor.awaitTermination(
-            Long.MAX_VALUE,
-            TimeUnit.NANOSECONDS
+            Long.MAX_VALUE, TimeUnit.NANOSECONDS
         )
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _fragmentCameraBinding =
-            FragmentCameraBinding.inflate(inflater, container, false)
+        _fragmentCameraBinding = FragmentCameraBinding.inflate(inflater, container, false)
 
         return fragmentCameraBinding.root
     }
@@ -109,16 +103,15 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
         backgroundExecutor = Executors.newSingleThreadExecutor()
 
         backgroundExecutor.execute {
-            objectDetectorHelper =
-                ObjectDetectorHelper(
-                    context = requireContext(),
-                    threshold = viewModel.currentThreshold,
-                    currentDelegate = viewModel.currentDelegate,
-                    currentModel = viewModel.currentModel,
-                    maxResults = viewModel.currentMaxResults,
-                    objectDetectorListener = this,
-                    runningMode = RunningMode.LIVE_STREAM
-                )
+            objectDetectorHelper = ObjectDetectorHelper(
+                context = requireContext(),
+                threshold = viewModel.currentThreshold,
+                currentDelegate = viewModel.currentDelegate,
+                currentModel = viewModel.currentModel,
+                maxResults = viewModel.currentMaxResults,
+                objectDetectorListener = this,
+                runningMode = RunningMode.LIVE_STREAM
+            )
 
 
             fragmentCameraBinding.viewFinder.post {
@@ -172,21 +165,17 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
         }
 
         fragmentCameraBinding.bottomSheetLayout.spinnerDelegate.setSelection(
-            viewModel.currentDelegate,
-            false
+            viewModel.currentDelegate, false
         )
         fragmentCameraBinding.bottomSheetLayout.spinnerDelegate.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
-                    p0: AdapterView<*>?,
-                    p1: View?,
-                    p2: Int,
-                    p3: Long
+                    p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long
                 ) {
                     try {
                         objectDetectorHelper.currentDelegate = p2
                         updateControlsUi()
-                    } catch(e: UninitializedPropertyAccessException) {
+                    } catch (e: UninitializedPropertyAccessException) {
                         Log.e(TAG, "ObjectDetectorHelper has not been initialized yet.")
                     }
                 }
@@ -197,21 +186,17 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
             }
 
         fragmentCameraBinding.bottomSheetLayout.spinnerModel.setSelection(
-            viewModel.currentModel,
-            false
+            viewModel.currentModel, false
         )
         fragmentCameraBinding.bottomSheetLayout.spinnerModel.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
-                    p0: AdapterView<*>?,
-                    p1: View?,
-                    p2: Int,
-                    p3: Long
+                    p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long
                 ) {
                     try {
                         objectDetectorHelper.currentDelegate = p2
                         updateControlsUi()
-                    } catch(e: UninitializedPropertyAccessException) {
+                    } catch (e: UninitializedPropertyAccessException) {
                         Log.e(TAG, "ObjectDetectorHelper has not been initialized yet.")
                     }
                 }
@@ -239,71 +224,47 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
 
 
     private fun setUpCamera() {
-        val cameraProviderFuture =
-            ProcessCameraProvider.getInstance(requireContext())
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener(
             {
-                // CameraProvider
                 cameraProvider = cameraProviderFuture.get()
 
-                // Build and bind the camera use cases
                 bindCameraUseCases()
-            },
-            ContextCompat.getMainExecutor(requireContext())
+            }, ContextCompat.getMainExecutor(requireContext())
         )
     }
 
-    // Declare and bind preview, capture and analysis use cases
     @SuppressLint("UnsafeOptInUsageError")
     private fun bindCameraUseCases() {
 
-        // CameraProvider
         val cameraProvider =
-            cameraProvider
-                ?: throw IllegalStateException("Camera initialization failed.")
+            cameraProvider ?: throw IllegalStateException("Camera initialization failed.")
 
-        // CameraSelector - makes assumption that we're only using the back camera
         val cameraSelector =
-            CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_FRONT).build()
+            CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_FRONT).build()
 
-        // Preview. Only using the 4:3 ratio because this is the closest to our models
-        preview =
-            Preview.Builder()
-                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
-                .setTargetRotation(fragmentCameraBinding.viewFinder.display.rotation)
-                .build()
+        preview = Preview.Builder().setTargetAspectRatio(AspectRatio.RATIO_4_3)
+            .setTargetRotation(fragmentCameraBinding.viewFinder.display.rotation).build()
 
-        // ImageAnalysis. Using RGBA 8888 to match how our models work
-        imageAnalyzer =
-            ImageAnalysis.Builder()
-                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
-                .setTargetRotation(fragmentCameraBinding.viewFinder.display.rotation)
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .setOutputImageFormat(OUTPUT_IMAGE_FORMAT_RGBA_8888)
-                .build()
-                // The analyzer can then be assigned to the instance
-                .also {
-                    it.setAnalyzer(
-                        backgroundExecutor,
-                        objectDetectorHelper::detectLivestreamFrame
-                    )
-                }
+        imageAnalyzer = ImageAnalysis.Builder().setTargetAspectRatio(AspectRatio.RATIO_4_3)
+            .setTargetRotation(fragmentCameraBinding.viewFinder.display.rotation)
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .setOutputImageFormat(OUTPUT_IMAGE_FORMAT_RGBA_8888).build()
 
-        // Must unbind the use-cases before rebinding them
+            .also {
+                it.setAnalyzer(
+                    backgroundExecutor, objectDetectorHelper::detectLivestreamFrame
+                )
+            }
+
         cameraProvider.unbindAll()
 
         try {
-            // A variable number of use-cases can be passed here -
-            // camera provides access to CameraControl & CameraInfo
+
             camera = cameraProvider.bindToLifecycle(
-                this,
-                cameraSelector,
-                preview,
-                imageAnalyzer
+                this, cameraSelector, preview, imageAnalyzer
             )
 
-            // Attach the viewfinder's surface provider to preview use case
             preview?.setSurfaceProvider(fragmentCameraBinding.viewFinder.surfaceProvider)
         } catch (exc: Exception) {
             Log.e(TAG, "Use case binding failed", exc)
@@ -312,19 +273,15 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        imageAnalyzer?.targetRotation =
-            fragmentCameraBinding.viewFinder.display.rotation
+        imageAnalyzer?.targetRotation = fragmentCameraBinding.viewFinder.display.rotation
     }
 
-    // Update UI after objects have been detected. Extracts original image height/width
-    // to scale and place bounding boxes properly through OverlayView
     override fun onResults(resultBundle: ObjectDetectorHelper.ResultBundle) {
         activity?.runOnUiThread {
             if (_fragmentCameraBinding != null) {
                 fragmentCameraBinding.bottomSheetLayout.inferenceTimeVal.text =
                     String.format("%d ms", resultBundle.inferenceTime)
 
-                // Pass necessary information to OverlayView for drawing on the canvas
                 val detectionResult = resultBundle.results[0]
                 if (isAdded) {
                     fragmentCameraBinding.overlay.setResults(
@@ -335,7 +292,6 @@ class CameraFragment : Fragment(), ObjectDetectorHelper.DetectorListener {
                     )
                 }
 
-                // Force a redraw
                 fragmentCameraBinding.overlay.invalidate()
             }
         }

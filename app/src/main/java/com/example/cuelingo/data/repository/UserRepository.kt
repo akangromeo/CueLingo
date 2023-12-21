@@ -1,4 +1,5 @@
 package com.example.cuelingo.data.repository
+
 import UserPreference
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
@@ -13,9 +14,10 @@ import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
 
-class UserRepository (private val userPreference: UserPreference,
-                      private val apiService: ApiService)
-{
+class UserRepository(
+    private val userPreference: UserPreference,
+    private val apiService: ApiService
+) {
     fun register(
         name: String,
         email: String,
@@ -38,6 +40,7 @@ class UserRepository (private val userPreference: UserPreference,
             emit(Result.Error("Signal Problem"))
         }
     }
+
     fun login(email: String, password: String): LiveData<Result<LoginResponse>> = liveData {
         emit(Result.Loading)
         try {
@@ -64,6 +67,7 @@ class UserRepository (private val userPreference: UserPreference,
             emit(Result.Error("Signal Problem"))
         }
     }
+
     suspend fun saveSession(user: UserModel) {
         userPreference.saveSession(user)
     }
@@ -75,6 +79,7 @@ class UserRepository (private val userPreference: UserPreference,
     suspend fun logout() {
         userPreference.logout()
     }
+
     companion object {
         @Volatile
         private var instance: UserRepository? = null

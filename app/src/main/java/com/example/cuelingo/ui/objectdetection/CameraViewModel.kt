@@ -17,9 +17,6 @@ package com.example.cuelingo.ui.objectdetection
 
 import androidx.lifecycle.ViewModel
 
-/**
- *  This ViewModel is used to store object detector helper settings
- */
 class CameraViewModel : ViewModel() {
     private var _delegate: Int = ObjectDetectorHelper.DELEGATE_CPU
     private var _threshold: Float =

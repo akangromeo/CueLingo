@@ -1,12 +1,9 @@
 package com.example.cuelingo.ui.dictionary
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -24,10 +21,6 @@ class DictionaryActivity : AppCompatActivity() {
         ViewModelFactoryDictionary.getInstance(this)
     }
 
-//    private val mainViewModel by viewModels<MainViewModel> {
-//        ViewModelFactory.getInstance(this)
-//    }
-
     private lateinit var binding: ActivityDictionaryBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,20 +32,18 @@ class DictionaryActivity : AppCompatActivity() {
         binding.rvDictionary.layoutManager = layoutManager
 
         setDictionaryData()
-
-        setupView()
-
         setupAction()
 
     }
 
-    private fun setDictionaryData(){
-        viewModel.getAllDictionary().observe(this){item ->
+    private fun setDictionaryData() {
+        viewModel.getAllDictionary().observe(this) { item ->
             if (item != null) {
                 when (item) {
                     is Result.Loading -> {
                         showLoading(true)
                     }
+
                     is Result.Success -> {
                         showLoading(false)
                         val dictionary = item.data
@@ -60,7 +51,8 @@ class DictionaryActivity : AppCompatActivity() {
                             DictionaryAdapter(object : DictionaryAdapter.OnItemClickCallBack {
                                 override fun onItemClicked(data: ListDictionaryItem) {
                                     val intent = Intent(
-                                        this@DictionaryActivity, DetailDictionaryActivity::class.java
+                                        this@DictionaryActivity,
+                                        DetailDictionaryActivity::class.java
                                     )
                                     intent.putExtra(DetailDictionaryActivity.NAME, data.name)
                                     intent.putExtra(DetailDictionaryActivity.PHOOTO, data.id)
@@ -83,19 +75,7 @@ class DictionaryActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupView() {
-        @Suppress("DEPRECATION") if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.hide(WindowInsets.Type.statusBars())
-        } else {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-        }
-        supportActionBar?.hide()
-    }
-
-    private fun setupAction(){
+    private fun setupAction() {
         binding.ivMain.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }

@@ -14,7 +14,7 @@
         android:src="@drawable/rectangle_curved_bottom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/primary"/>
+        app:tint="@color/primary" />
 
     <ImageView
         android:id="@+id/iv_logo"
@@ -144,8 +144,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
-        android:text="@string/fun_fact"
         android:fontFamily="@font/lexend_mega_semibold"
+        android:text="@string/fun_fact"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/bg_funfact"
         app:layout_constraintTop_toTopOf="@+id/bg_funfact" />
@@ -154,10 +154,10 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
-        android:text="@string/funfact_item"
         android:fontFamily="@font/lexend_mega_regular"
-        android:textSize="10dp"
+        android:text="@string/funfact_item"
         android:textColor="@color/black"
+        android:textSize="10dp"
         app:layout_constraintEnd_toEndOf="@+id/bg_funfact"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="@+id/bg_funfact"

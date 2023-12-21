@@ -25,7 +25,7 @@ class DetailDictionaryActivity : AppCompatActivity() {
 
     }
 
-    private fun setData(){
+    private fun setData() {
 
         val name = intent.getStringExtra(NAME)
         val photo = intent.getStringExtra(PHOOTO)
@@ -34,7 +34,8 @@ class DetailDictionaryActivity : AppCompatActivity() {
             Glide.with(this@DetailDictionaryActivity)
                 .load(photo)
                 .centerCrop()
-                .into(ivDictionary
+                .into(
+                    ivDictionary
 
                 )
             tvDictionaryName.text = name
@@ -42,7 +43,7 @@ class DetailDictionaryActivity : AppCompatActivity() {
 
     }
 
-    private fun setupAction(){
+    private fun setupAction() {
 
         binding.ibTryNow.setOnClickListener {
             startActivity(Intent(this, CameraActivity::class.java))

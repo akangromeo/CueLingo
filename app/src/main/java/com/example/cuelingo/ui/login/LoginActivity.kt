@@ -1,4 +1,5 @@
 package com.example.cuelingo.ui.login
+
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -11,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.cuelingo.data.local.preferences.UserModel
 import com.example.cuelingo.data.result.Result
 import com.example.cuelingo.databinding.ActivityLoginBinding
-import com.example.cuelingo.ui.viewModelFactory.ViewModelFactory
 import com.example.cuelingo.ui.main.MainActivity
 import com.example.cuelingo.ui.register.RegisterActivity
+import com.example.cuelingo.ui.viewModelFactory.ViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {

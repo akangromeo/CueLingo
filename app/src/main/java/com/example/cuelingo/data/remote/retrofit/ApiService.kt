@@ -25,6 +25,6 @@ interface ApiService {
     ): LoginResponse
 
     @GET("dictionary.json")
-    suspend fun getAllDictionary():DictionaryResponse
+    suspend fun getAllDictionary(): DictionaryResponse
 
 }

@@ -8,7 +8,7 @@ import com.example.cuelingo.data.local.preferences.UserModel
 import com.example.cuelingo.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: UserRepository): ViewModel() {
+class MainViewModel(private val repository: UserRepository) : ViewModel() {
 
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()

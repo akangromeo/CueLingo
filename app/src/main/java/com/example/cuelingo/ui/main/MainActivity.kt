@@ -32,14 +32,13 @@ class MainActivity : AppCompatActivity() {
 
 
         getSession()
-        setupView()
         setupAction()
         setData()
 
 
     }
 
-    private fun setData(){
+    private fun setData() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvRankWord.layoutManager = layoutManager
@@ -49,6 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.rvRankWord.adapter = adapter
     }
+
     private fun getSession() {
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupAction() {
 
-        binding.ibCamera.setOnClickListener{
+        binding.ibCamera.setOnClickListener {
             startActivity(Intent(this, CameraActivity::class.java))
         }
 

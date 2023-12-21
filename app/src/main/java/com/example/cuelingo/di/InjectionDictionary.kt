@@ -13,6 +13,6 @@ object InjectionDictionary {
         val pref = UserPreference.getInstance(context.dataStore)
         val user = runBlocking { pref.getSession().first() }
         val apiService = ApiConfig.getApiService(user.token)
-        return DictionaryRepository( apiService)
+        return DictionaryRepository(apiService)
     }
 }

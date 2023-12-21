@@ -35,7 +35,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
         mlModelBinding = true
     }
@@ -60,30 +60,30 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
 
-    implementation ("androidx.localbroadcastmanager:localbroadcastmanager:1.0.0")
+    implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.0.0")
 
     // CameraX core library
     val camerax_version = "1.1.0-beta03"
-    implementation ("androidx.camera:camera-core:$camerax_version")
+    implementation("androidx.camera:camera-core:$camerax_version")
 
     // CameraX Camera2 extensions
-    implementation ("androidx.camera:camera-camera2:$camerax_version")
+    implementation("androidx.camera:camera-camera2:$camerax_version")
 
     // CameraX Lifecycle library
-    implementation ("androidx.camera:camera-lifecycle:$camerax_version")
+    implementation("androidx.camera:camera-lifecycle:$camerax_version")
 
     // CameraX View class
-    implementation ("androidx.camera:camera-view:$camerax_version")
+    implementation("androidx.camera:camera-view:$camerax_version")
 
     //WindowManager
-    implementation ("androidx.window:window:1.0.0-alpha09")
+    implementation("androidx.window:window:1.0.0-alpha09")
 
-    implementation ("org.tensorflow:tensorflow-lite-task-vision:0.4.0")
+    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.0")
     // Import the GPU delegate plugin Library for GPU inference
-    implementation ("org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.0")
-    implementation ("org.tensorflow:tensorflow-lite-gpu:2.9.0")
+    implementation("org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.0")
+    implementation("org.tensorflow:tensorflow-lite-gpu:2.9.0")
 
     //livedata
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
@@ -98,7 +98,7 @@ dependencies {
     //datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-    implementation ("com.google.mediapipe:tasks-vision:0.10.2")
+    implementation("com.google.mediapipe:tasks-vision:0.10.2")
 
     //glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
