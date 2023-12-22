@@ -8,11 +8,14 @@ This repository contains the comprehensive mobile application development codeba
 ## Installation and Setup
 
 ### Step 1: Clone Repository
-Clone this repository to your local machine using the following command:
+Clone this repository branch to your local machine using the following command:
 
 ```bash
-git clone https://github.com/akangromeo/CueLingo/mobile-development.git
-cd mobile-development
+git clone git clone --branch mobile-development https://github.com/akangromeo/CueLingo.git
+```
+### or
+```bash
+git clone -b mobile-development https://github.com/akangromeo/CueLingo.git
 ```
 
 ### Step 2: Build Gradle in Androis Studio
