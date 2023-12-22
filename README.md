@@ -3,35 +3,17 @@
 
 # Cue Lingo : Our Sign Language Translator
 
-This repository contains the comprehensive mobile application development codebase for CueLingo Apps. It includes the front-end and back-end components, UI/UX design assets, Kotlin-based codebase, and backend server-side logic developed using Retrofit. The application is developed using Android Studio.
+Cue Lingo is a sign language detection application developed to help deaf people communicate with the general public about Indonesian Sign Language (BISINDO). It uses machine learning technology to recognize movements in real time and translate them into text. 
 
-## Installation and Setup
 
-### Step 1: Clone Repository
-Clone this repository to your local machine using the following command:
+## Capstone Team ID: CH2-PS137
 
-```bash
-git clone https://github.com/akangromeo/CueLingo/mobile-development.git
-cd mobile-development
-```
-
-### Step 2: Build Gradle in Androis Studio
-Open the cloned repository as an Android Studio project.
-
-### Step 3: Run Application in Emulator or Physical Device
-Run the project on an emulator or physical device of your choice.
-
-## Library & Tools
-- Android Studio
-- Kotlin
-- Retrofit
-- TensorFlow Lite
-- Glide
-
-## Application Features ##
-   * Register & Login
-   * Realtime Sign Laguage Detector
-   * Images Sign Language Detector (from Gallery)
-   * View List of Sign Language Dictionary
-   * View detailed Dictionary
-
+| Name        | Bangkit ID            | Roles | Colleges |
+| :--------------- | :-------------- |:------| :------|
+| I Gede Yoga Asta Pratama          | M014BSY1751           | ML | Universitas Udayana |
+| Kevin Siringo Ringo          | M014BSY0892           | ML | Udayana University |
+| M. Razy Qarar Fairuzzabadi          | M208BSY0935            | ML | Universitas Hasanuddin |
+| Alhafiz Zhurrahman Mirza Utama          | C184BSY4337            | CC | Universitas Andalas |
+| Albertus Reno Kristiardy          | C009BSY3738           | CC | Universitas Gunadarma |
+| Dean Agnia          | A014BSY2772           | MD | Udayana University |
+| Lion Younes Age Nesza Yadi Putra          | A193BSY2467           | MD | Universitas Bina Sarana Informatika |
