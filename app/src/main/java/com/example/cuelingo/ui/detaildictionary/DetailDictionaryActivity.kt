@@ -12,7 +12,6 @@ class DetailDictionaryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailDictionaryBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

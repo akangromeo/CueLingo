@@ -24,6 +24,7 @@
         <activity
             android:name=".ui.detaildictionary.DetailDictionaryActivity"
             android:exported="false"
+            android:parentActivityName=".ui.dictionary.DictionaryActivity"
             android:label="@string/title_activity_detail_dictionary"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.CueLingo"
@@ -32,7 +33,6 @@
             android:name=".ui.objectdetection.CameraActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.profile.ProfileActivity"
@@ -42,8 +42,8 @@
         <activity
             android:name=".ui.dictionary.DictionaryActivity"
             android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity"
             android:screenOrientation="portrait"
-
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.splashScreen.SplashScreen"
@@ -72,5 +72,4 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
     </application>
-
 </manifest>
