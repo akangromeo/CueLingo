@@ -31,7 +31,7 @@ class EmailEditText : AppCompatEditText {
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (!s.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+".toRegex())) {
-                    setError("input Email yang sesuai", null)
+                    setError("Input correct Email!", null)
                 } else {
                     error = null
                 }

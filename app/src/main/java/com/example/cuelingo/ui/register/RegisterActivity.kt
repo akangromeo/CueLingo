@@ -44,7 +44,7 @@ class RegisterActivity : AppCompatActivity() {
                         showLoading(false)
                         Toast.makeText(
                             this,
-                            "Akun dengan $email sudah jadi nih. Yuk, login dan belajar coding.",
+                            "Account Created.",
                             Toast.LENGTH_SHORT
                         ).show()
                         startActivity(Intent(this, LoginActivity::class.java))
@@ -52,12 +52,15 @@ class RegisterActivity : AppCompatActivity() {
 
                     is Result.Error -> {
                         showLoading(false)
-                        Toast.makeText(this, "Sign Up Failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Register Failed", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
 
+        binding.tvLogin.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
 
     }
 
